@@ -1,0 +1,4 @@
+API DISCOVERY : "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&"
+API KEY : 106b004999aac7f831125bd58d56d57d
+SEARCH API: "https://api.themoviedb.org/3/search/movie?api_key=106b004999aac7f831125bd58d56d57d&query="
+IMG API: "https://image.tmdb.org/t/p/w200/"
