@@ -16,6 +16,18 @@
 .hamburger_items {
     display: none;
 }
+.hamburger img {
+    background-color: #fdd932;
+    cursor: pointer;
+}
+
+.close_hamburger {
+    position: absolute;
+    color: white;
+    right: 10px;
+    top: 10px;
+    font-size: 20px !important;
+}
 
 .logo img {
     width: 110px;
@@ -26,7 +38,7 @@
 .logo {
     width: 520px;
     display: flex;
-    justify-content: center;
+    padding: 0px 20px;
     align-items: center;
 }
 
@@ -69,3 +81,85 @@
     margin-right: 30px;
 }
 
+
+select {
+    background-color: rgb(14, 14, 14);
+    color: white;
+    border: 0px;
+    width: 150px;
+    height: 40px;
+    font-size: 20px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.category_items {
+    z-index: 100000000;
+    position: absolute;
+    background-color: rgb(14, 14, 14) !important;
+    margin: 0px;
+    margin-top: 15px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    left: 50%;
+    right: 50%;
+    transform: translateX(-50% );
+    font-size: 20px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.category {
+    position: relative;
+    width: 300px;
+    
+}
+
+.category_item {
+    letter-spacing: 2px;
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
+    transition: 100ms;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.category_item:hover {
+    background-color: black;
+    transition: 100ms;
+}
+
+.category_items_responsive {
+    display: none;
+    flex-direction: column;
+    background-color: rgb(0, 0, 0);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000000;
+    color: white;
+    top: 0;
+    left: 50;
+    width: 100%;
+    transform: translate(-50% -50%);
+    font-size: 20px;
+    font-family: 'Raleway', sans-serif;
+    letter-spacing: 2px;
+    position: fixed;
+    overflow: scroll;
+    min-height: 100vh;
+}
+
+.cat_items {
+    cursor: pointer;
+    margin: 3px 0px;
+}
+
+.hamburger_search input{
+    width: 300px !important;
+    height: 40px;
+    margin: 20px 0px;
+}

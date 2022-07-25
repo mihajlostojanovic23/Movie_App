@@ -11,6 +11,7 @@ const API_KEY = '106b004999aac7f831125bd58d56d57d'
 const API_SEARCH = "https://api.themoviedb.org/3/search/movie?api_key=106b004999aac7f831125bd58d56d57d&query="
 const IMG_API = "https://image.tmdb.org/t/p/w400/"
 const POSTER ="https://image.tmdb.org/t/p/w1280/"
+const Category_API  ='https://api.themoviedb.org/3/discover/movie?api_key=106b004999aac7f831125bd58d56d57d&with_genres=27&page=1'
 
 let header = document.querySelector('.header')
 let buttons = document.querySelector('#btn')
@@ -56,7 +57,10 @@ class App extends Component {
           },
 
           search_result: 1,
-          Arrow_up: false
+          Arrow_up: false,
+          category_id: null,
+          category_id_copy: 0,
+          category_indicator: false,
         };
        
       }
@@ -80,6 +84,19 @@ async componentDidMount(){
 
         pageDecrement =()=> {
 
+            if(this.state.category_indicator == true) {
+                this.setState({category_indicator: 'okey'})
+                if(this.state.page > 1 ) {
+                    this.setState((state)=> ({page: state.page - 1}))
+            }
+            else {
+                this.setState((state)=> ({page: state.page}))
+            }}
+
+            else {
+
+            
+
             if(this.state.tranding == false) {
                 this.setState({page:this.state.page})
                 
@@ -100,7 +117,7 @@ async componentDidMount(){
             }
             this.setState({isAuth: false}) } }
         }
-          
+    }
         show_yt=() => {
             let youtube = document.querySelector('.youtube_container')
             youtube.style.display='block'
@@ -114,7 +131,15 @@ async componentDidMount(){
 
        if (this.state.page >= 1 && this.state.page <500) {
 
+        if(this.state.category_indicator == true) {
+            this.setState({category_indicator: 'okey'})
+            this.setState((state)=> ({page: state.page +1}))
+        }
+        else {
+
         
+        
+
         if (this.state.tranding == false) {
             this.setState({page:1})
         }
@@ -125,25 +150,38 @@ async componentDidMount(){
         }
         else {
             this.setState((state)=> ({page: state.page +1})) 
-            this.setState({isAuth: false})    }
+            this.setState({isAuth: false}) 
+               
         }
          
     }
-}
+}}}
 
-        componentDidUpdate(prevState, prevProps) {
+        componentDidUpdate() {
+            if(this.state.category_indicator != 'okey' ||this.state.category_indicator != true ) {
             if(!this.state.isAuth){
+                
         fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=106b004999aac7f831125bd58d56d57d&page=${this.state.page}`)
         .then((response)=> response.json())
         .then((data)=> this.setState({movies: data.results, selectedMovie: data.results[0] }))
         .catch((err)=> this.setState({error: err}))
-        this.setState({isAuth: true})     
+        this.setState({isAuth: true}) 
+        console.log('movie')    
+        }}
+
+        if(this.state.category_indicator=='okey') {
+            let API_Category = `https://api.themoviedb.org/3/discover/movie?api_key=106b004999aac7f831125bd58d56d57d&with_genres=${this.state.category_id}&page=${this.state.page}`
+            fetch (API_Category).then(response => response.json()).then(data => {this.setState({movies: data.results})})
+            this.setState({lastPage: false})
+            this.setState({category_indicator: true})
+            console.log('ke')
         }
 
-        
 
         if(this.state.tranding == true) {
+            this.setState({category_id_copy: 0})
             this.setState({page:1})
+            this.setState({category_indicator:false})
             fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}`)
         .then((response)=> response.json())
         .then((data)=> this.setState({movies: data.results, selectedMovie: data.results[0] }))
@@ -198,6 +236,8 @@ async componentDidMount(){
         }
 
         if(this.state.input_value != null) {
+            this.setState({category_id_copy: 0})
+            this.setState({category_indicator:false})
             this.setState({lastPage: 1})
             this.setState({page: 1})
             this.state.movies =[]
@@ -229,7 +269,19 @@ async componentDidMount(){
         }
        })
 
-            
+       
+       if(this.state.category_id_copy == null) {
+        document.querySelector('.category_items').style.display='none !important'
+        console.log(this.state.category_id)
+        this.setState({page:1})
+        let API_Category = `https://api.themoviedb.org/3/discover/movie?api_key=106b004999aac7f831125bd58d56d57d&with_genres=${this.state.category_id}&page=${this.state.page}`
+        fetch (API_Category).then(response => response.json()).then(data => {this.setState({movies: data.results})})
+        this.setState({category_id_copy: 1})
+        this.setState({lastPage: false})
+        this.setState({category_indicator: true})
+        
+       }
+      
     }
     
     
@@ -246,7 +298,7 @@ async componentDidMount(){
          }}>
             <img src={Arrow} alt=""  />
         </div>
-                <Navbar  tranding={(tranding)=> {this.setState({tranding:tranding})}}  logoClick={(logo => {this.setState({lastPage: logo})})} inputvalue={(input_value)=>{this.setState({input_value: input_value})}} ></Navbar>
+                <Navbar movie_indicator={(indicator)=>{this.setState({category_id_copy:indicator})}}  movie_category={(genre_id)=>{this.setState({category_id: genre_id })}} tranding={(tranding)=> {this.setState({tranding:tranding})}}  logoClick={(logo => {this.setState({lastPage: logo})})} inputvalue={(input_value)=>{this.setState({input_value: input_value})}} ></Navbar>
 
         {this.state.search_result > 0 ?
         <div>
